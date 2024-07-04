@@ -10,7 +10,7 @@ function CustomUILibrary:CreateWindow(title)
 
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = ScreenGui
-    MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     MainFrame.Position = UDim2.new(0.3, 0, 0.3, 0)
     MainFrame.Size = UDim2.new(0, 600, 0, 400)
     MainFrame.Active = true
@@ -18,7 +18,7 @@ function CustomUILibrary:CreateWindow(title)
 
     Title.Name = "Title"
     Title.Parent = MainFrame
-    Title.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    Title.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     Title.Size = UDim2.new(1, 0, 0, 50)
     Title.Font = Enum.Font.SourceSansBold
     Title.Text = title
