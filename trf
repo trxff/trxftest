@@ -4,6 +4,7 @@ function CustomUILibrary:CreateWindow(title)
     local ScreenGui = Instance.new("ScreenGui")
     local MainFrame = Instance.new("Frame")
     local Title = Instance.new("TextLabel")
+    local TabsHolder = Instance.new("Frame")
 
     ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
@@ -19,10 +20,16 @@ function CustomUILibrary:CreateWindow(title)
     Title.Parent = MainFrame
     Title.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
     Title.Size = UDim2.new(1, 0, 0, 50)
-    Title.Font = Enum.Font.SourceSans
+    Title.Font = Enum.Font.SourceSansBold
     Title.Text = title
     Title.TextColor3 = Color3.fromRGB(255, 255, 255)
     Title.TextSize = 24
+
+    TabsHolder.Name = "TabsHolder"
+    TabsHolder.Parent = MainFrame
+    TabsHolder.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    TabsHolder.Position = UDim2.new(0, 0, 0, 50)
+    TabsHolder.Size = UDim2.new(1, 0, 0, 30)
 
     local Tabs = Instance.new("Folder", MainFrame)
     Tabs.Name = "Tabs"
@@ -30,15 +37,16 @@ function CustomUILibrary:CreateWindow(title)
     return {
         ScreenGui = ScreenGui,
         MainFrame = MainFrame,
+        TabsHolder = TabsHolder,
         Tabs = Tabs
     }
 end
 
 function CustomUILibrary:CreateTab(window, tabName)
     local TabButton = Instance.new("TextButton")
-    TabButton.Parent = window.MainFrame
-    TabButton.Size = UDim2.new(0, 150, 0, 40)
-    TabButton.Position = UDim2.new(0, #window.Tabs:GetChildren() * 160, 0, 50)
+    TabButton.Parent = window.TabsHolder
+    TabButton.Size = UDim2.new(0, 150, 0, 30)
+    TabButton.Position = UDim2.new(0, #window.Tabs:GetChildren() * 160, 0, 0)
     TabButton.Text = tabName
     TabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     TabButton.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
@@ -48,8 +56,8 @@ function CustomUILibrary:CreateTab(window, tabName)
     local TabFrame = Instance.new("Frame")
     TabFrame.Name = tabName
     TabFrame.Parent = window.Tabs
-    TabFrame.Size = UDim2.new(1, 0, 1, -90)
-    TabFrame.Position = UDim2.new(0, 0, 0, 90)
+    TabFrame.Size = UDim2.new(1, 0, 1, -80)
+    TabFrame.Position = UDim2.new(0, 0, 0, 80)
     TabFrame.BackgroundTransparency = 1
     TabFrame.Visible = false
 
@@ -64,10 +72,15 @@ function CustomUILibrary:CreateTab(window, tabName)
 end
 
 function CustomUILibrary:CreateToggle(tab, toggleName, callback)
+    local ToggleFrame = Instance.new("Frame")
+    ToggleFrame.Parent = tab
+    ToggleFrame.Size = UDim2.new(0, 150, 0, 40)
+    ToggleFrame.Position = UDim2.new(0, 10, 0, (#tab:GetChildren() - 1) * 50)
+    ToggleFrame.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+
     local ToggleButton = Instance.new("TextButton")
-    ToggleButton.Parent = tab
-    ToggleButton.Size = UDim2.new(0, 150, 0, 40)
-    ToggleButton.Position = UDim2.new(0, 10, 0, (#tab:GetChildren() - 1) * 50)
+    ToggleButton.Parent = ToggleFrame
+    ToggleButton.Size = UDim2.new(1, 0, 1, 0)
     ToggleButton.Text = toggleName
     ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     ToggleButton.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
@@ -122,6 +135,21 @@ function CustomUILibrary:CreateSlider(tab, sliderName, min, max, default, callba
                 moving:Disconnect()
             end
         end)
+    end)
+end
+
+function CustomUILibrary:CreateButton(tab, buttonText, callback)
+    local Button = Instance.new("TextButton")
+    Button.Parent = tab
+    Button.Size = UDim2.new(0, 150, 0, 40)
+    Button.Position = UDim2.new(0, 10, 0, (#tab:GetChildren() - 1) * 50)
+    Button.Text = buttonText
+    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Button.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+    Button.Font = Enum.Font.SourceSans
+    Button.TextSize = 20
+    Button.MouseButton1Click:Connect(function()
+        callback()
     end)
 end
 
